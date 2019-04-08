@@ -6,7 +6,7 @@ API PLAY 2
 """
 
 import requests
-geocode_key = "AIzaSyAx4ezbUTIg7IP09UJC87darA14OLN5eRc"
+geocode_key = "PLACE YOUR GEOCODE KEY HERE"
 
 #%% GETPLACE function returns the formatted address given the latitude and longitude
 #using the google geocode api
@@ -23,14 +23,13 @@ def getplace(lat, lon):
 
 #%% RETURN_TEMP function calculates the weather in Celsius and returns 
 def return_temp(lat,lon):
-    weather_apikey = "2015f78e08a27a7b0c6d2e4191f0e2ab"
+    weather_apikey = "PLACE YOUR WEATHERMAP API KEY HERE"
     base_temp = r"https://api.openweathermap.org/data/2.5/weather?"
     url_temp = base_temp + "lat={}&lon={}&".format(lat,lon)
     url_temp += "appid={}&".format(weather_apikey)
     return requests.get(url_temp).json()["main"]["temp"] - 273.15
 
 #%% GOOGLE MAPS API PART
-
 import matplotlib.pyplot as plt
 import numpy as np 
 from PIL import Image
@@ -43,7 +42,7 @@ except ImportError:
 plt.close('all')
 
 #get one Google Static Map api key from google and use
-static_api_key = "AIzaSyAN-evfiIVvX-xjJ3_3cqH-xBq7TACCvJk"
+static_api_key = "PLACE YOUR GOOGLE STATIC MAP API KEY HERE"
 zoom = 7 # zoom level for the google map
 mapsize = (1500,1050) # size of the snapshot from google map
 maptypes = ["roadmap","satellite","terrain","hybrid"]
@@ -57,7 +56,7 @@ lon = np.random.uniform(low=27, high=44, size=size)
 
 address_list = []
 
-fig = plt.figure(figsize=(15,7))
+fig = plt.figure(figsize=(10,7))
 ax = fig.add_subplot(111)
 
 for i in range(size):
