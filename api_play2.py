@@ -33,6 +33,7 @@ def return_temp(lat,lon):
 import matplotlib.pyplot as plt
 import numpy as np 
 from PIL import Image
+import matplotlib.animation as an
 
 try:
     from StringIO import StringIO
@@ -44,21 +45,20 @@ plt.close('all')
 #get one Google Static Map api key from google and use
 static_api_key = "PLACE YOUR GOOGLE STATIC MAP API KEY HERE"
 zoom = 7 # zoom level for the google map
-mapsize = (1500,1050) # size of the snapshot from google map
+mapsize = (700,700) # size of the snapshot from google map
 maptypes = ["roadmap","satellite","terrain","hybrid"]
 file_formats = ["png","png32","gif","jpg"]
 base_url = 'https://maps.googleapis.com/maps/api/staticmap?'
 
 # create random list of latitudes and longitudes
-size = 50
+size = 20
 lat = np.random.uniform(low=37, high=41, size=size)
 lon = np.random.uniform(low=27, high=44, size=size)
 
 address_list = []
-
-fig = plt.figure(figsize=(10,7))
+fig = plt.figure(figsize=(7,7))
 ax = fig.add_subplot(111)
-
+gif_file= []
 for i in range(size):
     address = getplace(lat[i], lon[i])
     temp = return_temp(lat[i], lon[i])
@@ -76,6 +76,9 @@ for i in range(size):
     
     r = requests.get(url)
     img = Image.open(StringIO((r.content)))
-    ax.imshow(np.array(img))
-    plt.title(str(address)+"\nTemperature: %.1f Celsius"%(temp),fontsize=12,fontweight='bold')
-    plt.pause(1)
+
+    gif_file.append([ax.imshow(np.array(img)), ax.text(180,270,str(address)+"\nTemperature: %.1f Celsius"%(temp),fontsize=12,fontweight='bold')])
+    
+delay = 900 #milliseconds
+anim = an.ArtistAnimation(fig,gif_file,interval=delay)
+anim.save("map_n_weather.gif")
